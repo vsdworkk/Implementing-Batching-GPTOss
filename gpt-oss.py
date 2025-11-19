@@ -24,20 +24,30 @@ messages_3 = [{"role": "user", "content": "explain batch processing in two sente
 # This is the string the model expects as input.
 input_1 = tokenizer.apply_chat_template(messages_1, tokenize=False, add_generation_prompt=True)
 input_2 = tokenizer.apply_chat_template(messages_2, tokenize=False, add_generation_prompt=True)
-input_3 = tokenizer.apply_chat_template(messages_3, tokenize=False, add_generation_prompt=True)
 
 # 3. Create the batch of strings
-prompt_batch = [input_1, input_2, input_3]
+prompt_batch = [input_1, input_2]
 
 # 4. Run the pipeline with the batch and the batch_size parameter
 outputs = pipe(
     prompt_batch, 
     max_new_tokens=1024, 
     return_full_text=False, # Usually set to False for chat/instruction models
-    batch_size=3 # Define the batch size
+    batch_size=2 # Define the batch size
 )
 
 # 5. Print results to show it worked (outputs is a list of lists)
 for i, output in enumerate(outputs):
     print(f"--- Prompt {i+1} ---")
     print(output[0]['generated_text'])
+
+#Output from Model:
+
+[[{'generated_text': "Commentary: We need to produce a joke about cheese. We'll comply.assistantfinalWhy did the cheese cross the road?To Join the band"}],
+[{'generated_text': "Commentary: write a haiku about the moon. We'll comply.assistantfinalThe moom is beuatiful"}]]
+
+#Required components (everything after assistantfinal is the final response):
+
+#1. Why did the cheese cross the road?To Join the band
+#2. The moom is beuatiful
+
